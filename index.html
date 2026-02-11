@@ -5,6 +5,14 @@
 <title>For My Love ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- ✅ EmailJS Script MUST be outside style -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+(function(){
+    emailjs.init("EJAqOX-uvSbAgw8DU");  // your public key
+})();
+</script>
+
 <style>
 
 body{
@@ -114,25 +122,6 @@ body{
     to{transform:translateY(-400px); opacity:0;}
 }
 
-/* Mobile adjustments */
-@media(max-width:480px){
-    #startBtn{
-        font-size:16px;
-        padding:12px 25px;
-    }
-    #letterImage{
-        font-size:70px;
-    }
-    .letter{
-        padding:20px;
-    }
-}
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-<script>
-(function(){
-    emailjs.init("EJAqOX-uvSbAgw8DU"); // replace with your public key
-})();
-</script>
 </style>
 </head>
 
@@ -141,28 +130,15 @@ body{
 <button id="startBtn">Click Here My Love ❤️</button>
 
 <!-- QUESTION POPUP -->
-function checkAnswer(answer){
-
-    // 🔔 Send email notification
-    emailjs.send("service_a8y6rbg", "template_qzeac8q", {
-        selected_option: answer,
-        time: new Date().toLocaleString()
-    }).then(function(response) {
-        console.log("Email sent successfully!", response.status);
-    }, function(error) {
-        console.log("Email failed...", error);
-    });
-
-    // Your existing logic
-    if(answer==='B'){   // correct answer
-        document.getElementById("questionPopup").style.display="none";
-        document.getElementById("startBtn").style.display="none";
-        document.getElementById("letterImage").style.display="block";
-    }else{
-        alert("😂😂 Wrong answer! Are you serious?! Try again, memory queen 😜💘");
-    }
-}
-
+<div class="popup" id="questionPopup">
+    <div class="popup-box">
+        <h3>What is the date I proposed? 💍</h3>
+        <button onclick="checkAnswer('A')">Dec 30</button>
+        <button onclick="checkAnswer('B')">Nov 30</button>
+        <button onclick="checkAnswer('C')">Dec 01</button>
+        <button onclick="checkAnswer('D')">Nov 31</button>
+    </div>
+</div>
 
 <!-- Envelope -->
 <div id="letterImage" onclick="openLetter()">💌</div>
@@ -172,19 +148,10 @@ function checkAnswer(answer){
     <h2>My Love ❤️</h2>
     <p>
         The day I proposed to you was the most beautiful moment of my life. 🌸<br><br>
-
         You are my forever, my happiness, my everything. 💖<br><br>
-
-        Even though we haven’t met yet,  
-        I already know I’m going to smile the entire day when we do. 🥺💞<br><br>
-
-        Until that day comes,  
-        I’ll keep sending you my love through texts,  
-        through calls,  
-        through every little “Snaps...” 🌙✨<br><br>
-
+        Even though we haven’t met yet, I already know I’m going to smile the entire day when we do. 🥺💞<br><br>
+        Until that day comes, I’ll keep sending you my love through texts and calls. 🌙✨<br><br>
         One day I’m going to steal the warmest hug from you. 🥰❤️<br><br>
-
         I love you endlessly. ❤️
     </p>
 </div>
@@ -196,12 +163,23 @@ document.getElementById("startBtn").onclick=function(){
 };
 
 function checkAnswer(answer){
+
+    // ✅ Send email notification
+    emailjs.send("service_a8y6rbg", "template_qzeac8q", {
+        selected_option: answer,
+        time: new Date().toLocaleString()
+    }).then(function(response) {
+        console.log("Email sent successfully!", response.status);
+    }, function(error) {
+        console.log("Email failed...", error);
+    });
+
     if(answer==='B'){   // correct answer
         document.getElementById("questionPopup").style.display="none";
         document.getElementById("startBtn").style.display="none";
         document.getElementById("letterImage").style.display="block";
     }else{
-        alert("😂😂 Wrong answer! Are you serious?! Try again, memory queen 😜💘");
+        alert("😂😂 Wrong answer! Try again 😜💘");
     }
 }
 
@@ -227,4 +205,3 @@ function openLetter(){
 
 </body>
 </html>
-
