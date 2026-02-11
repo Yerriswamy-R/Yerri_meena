@@ -2,129 +2,183 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For My Love u ❤️</title>
+<title>For My Love ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Georgia', serif;
-        background: #ffe6f0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        flex-direction: column;
-    }
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#2f2f3f;
+  font-family: 'Georgia', serif;
+  overflow:hidden;
+}
 
-    .btn {
-        background: #25D366;
-        color: white;
-        padding: 15px 30px;
-        font-size: 18px;
-        border: none;
-        border-radius: 30px;
-        cursor: pointer;
-        text-decoration: none;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
+/* STEP 1 BUTTON */
+.start-btn{
+  background:#ff4d88;
+  color:white;
+  padding:15px 30px;
+  border-radius:30px;
+  font-size:18px;
+  border:none;
+  cursor:pointer;
+}
 
-    .popup, .letter {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.6);
-        justify-content: center;
-        align-items: center;
-    }
+/* POPUP */
+.popup{
+  display:none;
+  position:fixed;
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  text-align:center;
+  width:350px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
 
-    .popup-content {
-        background: white;
-        padding: 30px;
-        border-radius: 15px;
-        text-align: center;
-        width: 300px;
-    }
+.option{
+  background:#ff85a2;
+  color:white;
+  border:none;
+  padding:10px 20px;
+  margin:8px;
+  border-radius:20px;
+  cursor:pointer;
+}
 
-    .popup-content button {
-        margin: 10px;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 20px;
-        cursor: pointer;
-        font-size: 16px;
-    }
+/* ENVELOPE */
+.envelope{
+  display:none;
+  position:relative;
+  width:300px;
+  height:200px;
+  background:#f5f5f5;
+  cursor:pointer;
+}
 
-    .yes { background: #ff4d88; color: white; }
-    .no { background: gray; color: white; }
+.envelope:before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:0;
+  height:0;
+  border-left:150px solid transparent;
+  border-right:150px solid transparent;
+  border-bottom:100px solid #e0e0e0;
+  transform-origin:top;
+  transition:1s;
+}
 
-    .paper {
-        background: #fffaf0;
-        padding: 40px;
-        width: 400px;
-        border-radius: 10px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        text-align: center;
-        animation: fadeIn 1s ease-in-out;
-    }
+.envelope.open:before{
+  transform:rotateX(180deg);
+}
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: scale(0.8); }
-        to { opacity: 1; transform: scale(1); }
-    }
+.letter{
+  position:absolute;
+  width:260px;
+  height:180px;
+  background:white;
+  top:10px;
+  left:20px;
+  transform:translateY(100px);
+  transition:1s;
+  box-shadow:0 10px 20px rgba(0,0,0,0.3);
+}
 
-    h2 { color: #ff4d88; }
+.envelope.open .letter{
+  transform:translateY(-120px);
+}
+
+/* BOOK LETTER */
+.book{
+  display:none;
+  position:fixed;
+  width:400px;
+  height:300px;
+  background:white;
+  padding:30px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.5);
+  animation:fade 1s ease-in-out;
+  text-align:center;
+}
+
+@keyframes fade{
+  from{opacity:0; transform:scale(0.8);}
+  to{opacity:1; transform:scale(1);}
+}
 </style>
 </head>
 
 <body>
 
-<button class="btn" onclick="openPopup()">💚 Click Here My Love 💚</button>
+<!-- STEP 1 -->
+<button class="start-btn" onclick="openQuestion()">💚 Click Here My Love ❤️</button>
 
-<!-- Proposal Popup -->
-<div class="popup" id="proposalPopup">
-    <div class="popup-content">
-        <h3>Will you go on a date with me? 💕</h3>
-        <button class="yes" onclick="openLetter()">Yes 😍</button>
-        <button class="no" onclick="alert('Think again 😜')">No 😢</button>
-    </div>
+<!-- STEP 2 POPUP -->
+<div class="popup" id="questionPopup">
+  <h2>What is the date I proposed? 💕</h2>
+
+  <!-- CHANGE THESE DATES -->
+  <button class="option" onclick="checkAnswer(false)">12 Feb 2024</button>
+  <button class="option" onclick="checkAnswer(true)">10 Jan 2024</button> <!-- Correct -->
+  <button class="option" onclick="checkAnswer(false)">01 Mar 2024</button>
+  <button class="option" onclick="checkAnswer(false)">14 Feb 2024</button>
 </div>
 
-<!-- Love Letter -->
-<div class="letter" id="loveLetter">
-    <div class="paper">
-        <h2>My Dear Love ❤️</h2>
-        <p>
-            From the moment you came into my life,  
-            everything became more beautiful.  
-            Your smile is my happiness,  
-            your voice is my peace.  
-        </p>
+<!-- STEP 3 ENVELOPE -->
+<div class="envelope" id="envelope" onclick="openEnvelope()">
+  <div class="letter"></div>
+</div>
 
-        <p>
-            I just want to say...  
-            I am so lucky to have you.  
-        </p>
+<!-- STEP 4 BOOK LETTER -->
+<div class="book" id="book">
+  <h2>My Love ❤️</h2>
+  <p>
+    From the moment I proposed to you,  
+    my world became brighter.  
 
-        <h2>Love You Forever ❤️</h2>
-    </div>
+    You are my happiness,  
+    my strength,  
+    my forever.  
+
+    I promise to love you  
+    more every single day.  
+
+    💖 Forever Yours.
+  </p>
 </div>
 
 <script>
-function openPopup() {
-    document.getElementById("proposalPopup").style.display = "flex";
+
+function openQuestion(){
+  document.querySelector(".start-btn").style.display="none";
+  document.getElementById("questionPopup").style.display="block";
 }
 
-function openLetter() {
-    document.getElementById("proposalPopup").style.display = "none";
-    document.getElementById("loveLetter").style.display = "flex";
+function checkAnswer(correct){
+  if(correct){
+    document.getElementById("questionPopup").style.display="none";
+    document.getElementById("envelope").style.display="block";
+  }else{
+    alert("Wrong answer 😂😂 Are you serious?! Try again my memory queen 😜💘");
+  }
 }
+
+function openEnvelope(){
+  let env=document.getElementById("envelope");
+  env.classList.add("open");
+
+  setTimeout(function(){
+    document.getElementById("book").style.display="block";
+  },1000);
+}
+
 </script>
 
 </body>
 </html>
-
