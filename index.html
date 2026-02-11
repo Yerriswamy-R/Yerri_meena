@@ -127,7 +127,12 @@ body{
         padding:20px;
     }
 }
-
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+(function(){
+    emailjs.init("EJAqOX-uvSbAgw8DU"); // replace with your public key
+})();
+</script>
 </style>
 </head>
 
@@ -136,15 +141,28 @@ body{
 <button id="startBtn">Click Here My Love ❤️</button>
 
 <!-- QUESTION POPUP -->
-<div class="popup" id="questionPopup">
-    <div class="popup-box">
-        <h3>What is the date I proposed? 💍</h3>
-        <button onclick="checkAnswer('A')">Dec 30</button>
-        <button onclick="checkAnswer('B')">Nov 30</button>
-        <button onclick="checkAnswer('C')">Dec 01</button>
-        <button onclick="checkAnswer('D')">Nov 31</button>
-    </div>
-</div>
+function checkAnswer(answer){
+
+    // 🔔 Send email notification
+    emailjs.send("service_a8y6rbg", "template_qzeac8q", {
+        selected_option: answer,
+        time: new Date().toLocaleString()
+    }).then(function(response) {
+        console.log("Email sent successfully!", response.status);
+    }, function(error) {
+        console.log("Email failed...", error);
+    });
+
+    // Your existing logic
+    if(answer==='B'){   // correct answer
+        document.getElementById("questionPopup").style.display="none";
+        document.getElementById("startBtn").style.display="none";
+        document.getElementById("letterImage").style.display="block";
+    }else{
+        alert("😂😂 Wrong answer! Are you serious?! Try again, memory queen 😜💘");
+    }
+}
+
 
 <!-- Envelope -->
 <div id="letterImage" onclick="openLetter()">💌</div>
@@ -209,3 +227,4 @@ function openLetter(){
 
 </body>
 </html>
+
