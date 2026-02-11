@@ -13,11 +13,10 @@ body{
   justify-content:center;
   align-items:center;
   background:#2f2f3f;
-  font-family: 'Georgia', serif;
-  overflow:hidden;
+  font-family:Georgia, serif;
 }
 
-/* STEP 1 BUTTON */
+/* START BUTTON */
 .start-btn{
   background:#ff4d88;
   color:white;
@@ -50,82 +49,23 @@ body{
   cursor:pointer;
 }
 
+/* ENVELOPE CONTAINER */
+.envelope-container{
+  display:none;
+  cursor:pointer;
+}
+
 /* ENVELOPE */
-.envelope{
-  display:none;
-  position:relative;
-  width:300px;
-  height:200px;
-  background:#f5f5f5;
-  cursor:pointer;
-}
-
-.envelope:before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  width:0;
-  height:0;
-  border-left:150px solid transparent;
-  border-right:150px solid transparent;
-  border-bottom:100px solid #e0e0e0;
-  transform-origin:top;
-  transition:1s;
-}
-
-.envelope.open:before{
-  transform:rotateX(180deg);
-}
-
-.letter{
-  position:absolute;
-  width:260px;
-  height:180px;
-  background:white;
-  top:10px;
-  left:20px;
-  transform:translateY(100px);
-  transition:1s;
-  box-shadow:0 10px 20px rgba(0,0,0,0.3);
-}
-
-.envelope.open .letter{
-  transform:translateY(-120px);
-}
-
-/* BOOK LETTER */
-.book{
-  display:none;
-  position:fixed;
-  width:400px;
-  height:300px;
-  background:white;
-  padding:30px;
-  box-shadow:0 15px 40px rgba(0,0,0,0.5);
-  animation:fade 1s ease-in-out;
-  text-align:center;
-}
-
-@keyframes fade{
-  from{opacity:0; transform:scale(0.8);}
-  to{opacity:1; transform:scale(1);}
-}
-  .envelope-container{
-  display:none;
-  cursor:pointer;
-}
-
 .envelope{
   position:relative;
   width:320px;
   height:200px;
   background:#f5f5f5;
-  overflow:hidden;
   box-shadow:0 10px 25px rgba(0,0,0,0.4);
+  overflow:hidden;
 }
 
-/* Left flap */
+/* LEFT FLAP */
 .left-flap{
   position:absolute;
   width:50%;
@@ -136,7 +76,7 @@ body{
   transition:1s;
 }
 
-/* Right flap */
+/* RIGHT FLAP */
 .right-flap{
   position:absolute;
   width:50%;
@@ -147,16 +87,16 @@ body{
   transition:1s;
 }
 
-/* Heart seal */
+/* HEART */
 .heart{
   position:absolute;
   top:80px;
-  left:140px;
+  left:145px;
   font-size:30px;
   z-index:5;
 }
 
-/* Letter */
+/* LETTER */
 .letter{
   position:absolute;
   width:260px;
@@ -182,18 +122,22 @@ body{
   transform:translateY(-100px);
 }
 
+/* BOOK */
 .book{
   display:none;
   position:fixed;
   width:400px;
-  height:280px;
   background:white;
   padding:30px;
   box-shadow:0 15px 40px rgba(0,0,0,0.5);
-  animation:fade 1s ease-in-out;
   text-align:center;
+  animation:fade 1s ease;
 }
 
+@keyframes fade{
+  from{opacity:0; transform:scale(0.8);}
+  to{opacity:1; transform:scale(1);}
+}
 </style>
 </head>
 
@@ -202,20 +146,18 @@ body{
 <!-- STEP 1 -->
 <button class="start-btn" onclick="openQuestion()">💚 Click Here My Love ❤️</button>
 
-<!-- STEP 2 POPUP -->
+<!-- STEP 2 -->
 <div class="popup" id="questionPopup">
   <h2>What is the date I proposed? 💕</h2>
-
-  <!-- CHANGE THESE DATES -->
   <button class="option" onclick="checkAnswer(false)">12 Feb 2024</button>
-  <button class="option" onclick="checkAnswer(true)">10 Jan 2024</button> <!-- Correct -->
+  <button class="option" onclick="checkAnswer(true)">10 Jan 2024</button>
   <button class="option" onclick="checkAnswer(false)">01 Mar 2024</button>
   <button class="option" onclick="checkAnswer(false)">14 Feb 2024</button>
 </div>
 
-<!-- STEP 3 ENVELOPE -->
-<div class="envelope-container" id="envelope" onclick="openEnvelope()">
-  <div class="envelope">
+<!-- STEP 3 -->
+<div class="envelope-container" id="envelopeContainer" onclick="openEnvelope()">
+  <div class="envelope" id="envelope">
     <div class="left-flap"></div>
     <div class="right-flap"></div>
     <div class="letter"></div>
@@ -223,23 +165,22 @@ body{
   </div>
 </div>
 
+<!-- LETTER TEXT -->
 <div class="book" id="book">
   <h2>My Love ❤️</h2>
   <p>
     The day I proposed to you  
     was the best decision of my life.  
-
+    <br><br>
     You are my dream,  
     my peace,  
     my forever person.  
-
+    <br><br>
     I love you endlessly 💖
   </p>
 </div>
 
-
 <script>
-
 function openQuestion(){
   document.querySelector(".start-btn").style.display="none";
   document.getElementById("questionPopup").style.display="block";
@@ -248,23 +189,20 @@ function openQuestion(){
 function checkAnswer(correct){
   if(correct){
     document.getElementById("questionPopup").style.display="none";
-    document.getElementById("envelope").style.display="block";
+    document.getElementById("envelopeContainer").style.display="block";
   }else{
-    alert("Wrong answer 😂😂 Are you serious?! Try again my memory queen 😜💘");
+    alert("Wrong answer 😂 Try again my memory queen 😜💘");
   }
 }
 
 function openEnvelope(){
-  let env=document.querySelector(".envelope");
-  env.classList.add("open");
+  document.getElementById("envelope").classList.add("open");
 
   setTimeout(function(){
     document.getElementById("book").style.display="block";
   },1200);
 }
-
 </script>
 
 </body>
 </html>
-
